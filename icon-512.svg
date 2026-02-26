@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="64" fill="#121213"/>
+  <rect x="42" y="149" width="128" height="128" rx="8" fill="#6aaa64"/>
+  <rect x="192" y="149" width="128" height="128" rx="8" fill="#c9b458"/>
+  <rect x="342" y="149" width="128" height="128" rx="8" fill="#6aaa64"/>
+  <rect x="42" y="299" width="128" height="128" rx="8" fill="#3a3a3c"/>
+  <rect x="192" y="299" width="128" height="128" rx="8" fill="#6aaa64"/>
+  <rect x="342" y="299" width="128" height="128" rx="8" fill="#c9b458"/>
+  <text x="106" y="233" font-family="Arial,sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">W</text>
+  <text x="256" y="233" font-family="Arial,sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">O</text>
+  <text x="406" y="233" font-family="Arial,sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">R</text>
+  <text x="106" y="383" font-family="Arial,sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">D</text>
+  <text x="256" y="383" font-family="Arial,sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">L</text>
+  <text x="406" y="383" font-family="Arial,sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">E</text>
+</svg>
