@@ -4,8 +4,8 @@
   "description": "Guess the 5-letter word in 6 tries",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#121213",
-  "theme_color": "#121213",
+  "background_color": "#0f1b2d",
+  "theme_color": "#0f1b2d",
   "orientation": "portrait",
   "icons": [
     {
