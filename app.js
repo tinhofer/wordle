@@ -32,7 +32,11 @@
       maxStreak: 'Max',
       guessDist: 'Guess Distribution',
       newGame: 'New Game',
-      langBtn: 'EN'
+      langBtn: 'EN',
+      giveUp: 'Give up',
+      hint: 'Hint',
+      hintMsg: 'Position {pos}: {letter}',
+      noHints: 'No more hints'
     },
     de: {
       title: 'Wordle',
@@ -47,7 +51,11 @@
       maxStreak: 'Max',
       guessDist: 'Verteilung',
       newGame: 'Neues Spiel',
-      langBtn: 'DE'
+      langBtn: 'DE',
+      giveUp: 'Aufgeben',
+      hint: 'Hinweis',
+      hintMsg: 'Position {pos}: {letter}',
+      noHints: 'Keine weiteren Hinweise'
     }
   };
 
@@ -59,6 +67,7 @@
   let gameOver = false;
   let keyStates = {};    // letter -> 'correct' | 'present' | 'absent'
   let revealInProgress = false;
+  let revealedHints = new Set(); // positions already revealed as hints
 
   // ── DOM refs ───────────────────────────────────────────────────
   const boardEl = document.getElementById('board');
@@ -69,6 +78,8 @@
   const btnLang = document.getElementById('btn-lang');
   const langLabel = document.getElementById('lang-label');
   const btnNewGame = document.getElementById('btn-new-game');
+  const btnGiveUp = document.getElementById('btn-give-up');
+  const btnHint = document.getElementById('btn-hint');
 
   // ── Word helpers ───────────────────────────────────────────────
   function getWordList() {
@@ -358,6 +369,8 @@
     revealRow(rowIdx, result, () => {
       if (guess === targetWord) {
         gameOver = true;
+        btnGiveUp.classList.add('disabled');
+        btnHint.classList.add('disabled');
         bounceRow(rowIdx);
         showMessage(t.win[rowIdx], 2000);
         recordWin(rowIdx + 1);
@@ -367,6 +380,8 @@
         }, 2500);
       } else if (board.length >= MAX_GUESSES) {
         gameOver = true;
+        btnGiveUp.classList.add('disabled');
+        btnHint.classList.add('disabled');
         showMessage(`${t.lose}: ${targetWord.toUpperCase()}`, 4000);
         recordLoss();
         setTimeout(() => {
@@ -382,6 +397,52 @@
     if (!row) return;
     row.classList.add('shake');
     setTimeout(() => row.classList.remove('shake'), 400);
+  }
+
+  // ── Give up ──────────────────────────────────────────────────
+  function giveUp() {
+    if (gameOver || revealInProgress) return;
+    const t = I18N[lang];
+    gameOver = true;
+    showMessage(`${t.lose}: ${targetWord.toUpperCase()}`, 4000);
+    recordLoss();
+    btnGiveUp.classList.add('disabled');
+    btnHint.classList.add('disabled');
+    setTimeout(() => {
+      renderStats(null);
+      statsModal.classList.remove('hidden');
+    }, 4500);
+  }
+
+  // ── Hint ────────────────────────────────────────────────────
+  function revealHint() {
+    if (gameOver || revealInProgress) return;
+    const t = I18N[lang];
+
+    // Collect positions already guessed correctly
+    const correctPositions = new Set();
+    for (const guess of board) {
+      for (let i = 0; i < WORD_LENGTH; i++) {
+        if (guess[i] === targetWord[i]) correctPositions.add(i);
+      }
+    }
+
+    // Find unrevealed positions
+    const available = [];
+    for (let i = 0; i < WORD_LENGTH; i++) {
+      if (!correctPositions.has(i) && !revealedHints.has(i)) {
+        available.push(i);
+      }
+    }
+
+    if (available.length === 0) {
+      showMessage(t.noHints, 1500);
+      return;
+    }
+
+    const pos = available[Math.floor(Math.random() * available.length)];
+    revealedHints.add(pos);
+    showMessage(t.hintMsg.replace('{pos}', pos + 1).replace('{letter}', targetWord[pos].toUpperCase()), 3000);
   }
 
   // ── Physical keyboard ─────────────────────────────────────────
@@ -413,6 +474,9 @@
     startNewGame();
   });
 
+  btnGiveUp.addEventListener('click', giveUp);
+  btnHint.addEventListener('click', revealHint);
+
   btnLang.addEventListener('click', () => {
     lang = lang === 'en' ? 'de' : 'en';
     localStorage.setItem('wordle-lang', lang);
@@ -426,10 +490,16 @@
     gameOver = false;
     keyStates = {};
     revealInProgress = false;
+    revealedHints = new Set();
     msgBar.innerHTML = '';
     msgBar.classList.remove('show');
     targetWord = pickWord();
-    langLabel.textContent = I18N[lang].langBtn;
+    const t = I18N[lang];
+    langLabel.textContent = t.langBtn;
+    btnGiveUp.textContent = t.giveUp;
+    btnGiveUp.classList.remove('disabled');
+    btnHint.textContent = t.hint;
+    btnHint.classList.remove('disabled');
     createBoard();
     createKeyboard();
   }
