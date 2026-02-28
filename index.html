@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#121213">
+  <meta name="theme-color" content="#0f1b2d">
   <meta name="description" content="Wordle - Guess the 5-letter word">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,13 +15,19 @@
 <body>
   <div id="app">
     <header>
-      <button id="btn-stats" class="icon-btn" aria-label="Statistics">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="13" width="4" height="9" rx="1"/><rect x="10" y="5" width="4" height="17" rx="1"/><rect x="18" y="9" width="4" height="13" rx="1"/></svg>
-      </button>
+      <div class="header-group">
+        <button id="btn-stats" class="icon-btn" aria-label="Statistics">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="13" width="4" height="9" rx="1"/><rect x="10" y="5" width="4" height="17" rx="1"/><rect x="18" y="9" width="4" height="13" rx="1"/></svg>
+        </button>
+        <button id="btn-give-up" class="icon-btn small-label" aria-label="Give up"></button>
+      </div>
       <h1>Wordle</h1>
-      <button id="btn-lang" class="icon-btn" aria-label="Language">
-        <span id="lang-label">EN</span>
-      </button>
+      <div class="header-group">
+        <button id="btn-hint" class="icon-btn small-label" aria-label="Hint"></button>
+        <button id="btn-lang" class="icon-btn" aria-label="Language">
+          <span id="lang-label">EN</span>
+        </button>
+      </div>
     </header>
 
     <div id="message-bar"></div>
